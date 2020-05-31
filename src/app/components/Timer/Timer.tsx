@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   Card,
-  CardHeader,
   Typography,
   CardContent,
   CardActions,
@@ -10,18 +9,36 @@ import {
   LinearProgress,
 } from "@material-ui/core";
 import TimerDialogue from "../TimerDialogue";
+import { TimeSetting } from "../../constants/enums";
 
 export interface Props {
-  endTime: number;
+  workTime: number;
+  shortBreakTime: number;
+  longBreakTime: number;
   workTimeString: string;
+  shortBreakTimeString: string;
+  longBreakTimeString: string;
 }
 
-function Timer({ endTime, workTimeString }: Props) {
+function Timer({
+  workTime,
+  shortBreakTime,
+  longBreakTime,
+  workTimeString,
+  shortBreakTimeString,
+  longBreakTimeString,
+}: Props) {
   const [seconds, setSeconds] = useState(0);
   const [isActive, setActive] = useState(false);
   const [finished, setFinished] = useState(false);
+  const [timeState, setTimeState] = useState(TimeSetting.work);
+  const [numWorkTimes, setNumWorkTimes] = useState(1);
+  const [endTime, setEndTime] = useState(workTime);
 
   const startTimer = () => {
+    console.log(endTime);
+    console.log(timeState === TimeSetting.work ? workTime : shortBreakTime);
+    console.log(numWorkTimes);
     setActive(true);
   };
 
@@ -46,9 +63,40 @@ function Timer({ endTime, workTimeString }: Props) {
     setFinished(false);
   };
 
+  const pickTimeString = () => {
+    if (timeState === TimeSetting.work) {
+      return workTimeString;
+    } else if (timeState === TimeSetting.shortBreak) {
+      return shortBreakTimeString;
+    } else if (timeState === TimeSetting.longBreak) {
+      return longBreakTimeString;
+    }
+  };
+
   useEffect(() => {
     let interval: any = null;
+    if (timeState === TimeSetting.work) {
+      setEndTime(workTime);
+    } else if (timeState === TimeSetting.shortBreak) {
+      setEndTime(shortBreakTime);
+    } else if (timeState === TimeSetting.longBreak) {
+      setEndTime(longBreakTime);
+    }
     if (seconds === endTime && endTime !== 0) {
+      if (timeState === TimeSetting.work) {
+        setNumWorkTimes((currentTime) => currentTime + 1);
+        if (numWorkTimes === 4) {
+          setTimeState(TimeSetting.longBreak);
+          setNumWorkTimes(0);
+          setEndTime(longBreakTime); //TODO: change to longBreakTime
+        } else {
+          setTimeState(TimeSetting.shortBreak);
+          setEndTime(shortBreakTime);
+        }
+      } else if (timeState === TimeSetting.shortBreak || timeState === TimeSetting.longBreak) {
+        setTimeState(TimeSetting.work);
+        setEndTime(workTime);
+      }
       setFinished(true);
       resetTimer();
     } else if (isActive) {
@@ -59,18 +107,28 @@ function Timer({ endTime, workTimeString }: Props) {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [isActive, seconds, endTime]);
+  }, [
+    isActive,
+    seconds,
+    endTime,
+    timeState,
+    numWorkTimes,
+    shortBreakTime,
+    setEndTime,
+    workTime,
+    longBreakTime
+  ]);
 
   return (
     <>
       <Paper>
         <Card>
           <CardContent>
-            <Typography variant="h6">Work Timer</Typography>
+            <Typography variant="h6">Curent Phase: {timeState}</Typography>
             <Typography variant={"h4"}>
               {Math.floor(seconds / 60)}:
               {seconds % 60 < 10 ? "0" + (seconds % 60) : seconds % 60} /{" "}
-              {workTimeString}
+              {pickTimeString()}
             </Typography>
             <LinearProgress
               variant="determinate"

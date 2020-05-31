@@ -12,10 +12,12 @@ import {
 
 export interface Props {
   name: string;
-  breakTime: number;
   workTimeString: string;
-  handleChangeWorkTime: (data: number) => void;
+  shortBreakTimeString: string;
+  longBreakTimeString: string;
   handleChangeWorkTimeString: (data: string) => void;
+  handleChangeShortBreakTimeString: (data: string) => void;
+  handleChangeLongBreakTimeString: (data: string) => void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -31,12 +33,14 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function UserDetails({
   name,
-  breakTime,
   workTimeString,
-  handleChangeWorkTime,
   handleChangeWorkTimeString,
+  shortBreakTimeString,
+  handleChangeShortBreakTimeString,
+  longBreakTimeString,
+  handleChangeLongBreakTimeString,
 }: Props) {
-  const formatTimePattern = RegExp('^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$');
+  const formatTimePattern = RegExp("^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$");
   const classes = useStyles();
   return (
     <Card style={{ height: "auto" }}>
@@ -44,7 +48,8 @@ function UserDetails({
         <Typography variant="h6">User Details and Settings</Typography>
         <Typography variant="h4">{name}</Typography>
         <Typography variant="h6">
-          Work Time: {workTimeString}, Break Time: {breakTime}
+          Work Time: {workTimeString}, Short Break Time: {shortBreakTimeString},
+          Long Break Time: {longBreakTimeString}
         </Typography>
       </CardContent>
       <CardActions>
@@ -54,12 +59,29 @@ function UserDetails({
             id="workTimeInput"
             label="Work Time (in minutes)"
             onChange={(e) => {
-              if(formatTimePattern.test(e.target.value)){
-                handleChangeWorkTimeString(e.target.value)
-              };
+              if (formatTimePattern.test(e.target.value)) {
+                handleChangeWorkTimeString(e.target.value);
+              }
             }}
           />
-          <TextField id="breakTimeInput" label="Break Time" />
+          <TextField
+            id="shortBreakTimeInput"
+            label="Short Break Time"
+            onChange={(e) => {
+              if (formatTimePattern.test(e.target.value)) {
+                handleChangeShortBreakTimeString(e.target.value);
+              }
+            }}
+          />
+          <TextField
+            id="longBreakTimeInput"
+            label="Long Break Time"
+            onChange={(e) => {
+              if (formatTimePattern.test(e.target.value)) {
+                handleChangeLongBreakTimeString(e.target.value);
+              }
+            }}
+          />
         </form>
       </CardActions>
     </Card>
