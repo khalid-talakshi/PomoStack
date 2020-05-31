@@ -12,10 +12,11 @@ import {
 import TimerDialogue from "../TimerDialogue";
 
 export interface Props {
-  endTime: number
+  endTime: number;
+  workTimeString: string;
 }
 
-function Timer({endTime}: Props) {
+function Timer({ endTime, workTimeString }: Props) {
   const [seconds, setSeconds] = useState(0);
   const [isActive, setActive] = useState(false);
   const [finished, setFinished] = useState(false);
@@ -43,13 +44,13 @@ function Timer({endTime}: Props) {
 
   const handleClose = () => {
     setFinished(false);
-  }
+  };
 
   useEffect(() => {
     let interval: any = null;
-    if (seconds === endTime) {
+    if (seconds === endTime && endTime !== 0) {
       setFinished(true);
-      resetTimer()
+      resetTimer();
     } else if (isActive) {
       interval = setInterval(() => {
         setSeconds((seconds) => seconds + 1);
@@ -62,27 +63,35 @@ function Timer({endTime}: Props) {
 
   return (
     <>
-    <Paper>
-      <Card>
-        <CardContent>
-          <Typography variant="h6">Work Timer</Typography>
-          <Typography variant={"h4"}>
-            {Math.floor(seconds / 60)}:
-            {seconds % 60 < 10 ? "0" + (seconds % 60) : seconds % 60}
-          </Typography>
-          <LinearProgress variant="determinate" value={(seconds / endTime) * 100} />
-        </CardContent>
-        <CardActions style={{marginTop: 0}}>
-          <Button size="small" onClick={handleStartStop}>
-            {isActive ? "Stop" : "Start"}
-          </Button>
-          <Button size="small" onClick={toggleTimer} disabled={!isActive && seconds === 0}>
-            {isActive ? "Pause" : "Resume"}
-          </Button>
-        </CardActions>
-      </Card>
-    </Paper>
-    <TimerDialogue show={finished} close={handleClose}/>
+      <Paper>
+        <Card>
+          <CardContent>
+            <Typography variant="h6">Work Timer</Typography>
+            <Typography variant={"h4"}>
+              {Math.floor(seconds / 60)}:
+              {seconds % 60 < 10 ? "0" + (seconds % 60) : seconds % 60} /{" "}
+              {workTimeString}
+            </Typography>
+            <LinearProgress
+              variant="determinate"
+              value={(seconds / endTime) * 100}
+            />
+          </CardContent>
+          <CardActions style={{ marginTop: 0 }}>
+            <Button size="small" onClick={handleStartStop}>
+              {isActive ? "Stop" : "Start"}
+            </Button>
+            <Button
+              size="small"
+              onClick={toggleTimer}
+              disabled={!isActive && seconds === 0}
+            >
+              {isActive ? "Pause" : "Resume"}
+            </Button>
+          </CardActions>
+        </Card>
+      </Paper>
+      <TimerDialogue show={finished} close={handleClose} />
     </>
   );
 }
