@@ -8,6 +8,7 @@ import {
   makeStyles,
   Theme,
   createStyles,
+  Grid,
 } from "@material-ui/core";
 
 export interface Props {
@@ -28,6 +29,10 @@ const useStyles = makeStyles((theme: Theme) =>
         width: "25ch",
       },
     },
+    gridText: {
+      display: "flex",
+      alignItems: "flex-end",
+    }
   })
 );
 
@@ -47,43 +52,57 @@ function UserDetails({
       <CardContent>
         <Typography variant="h6">User Details and Settings</Typography>
         <Typography variant="h4">{name}</Typography>
-        <Typography variant="h6">
-          Work Time: {workTimeString}, Short Break Time: {shortBreakTimeString},
-          Long Break Time: {longBreakTimeString}
-        </Typography>
+        <Grid container>
+          <Grid item xs={6} className={classes.gridText}>
+            <Typography variant="h6">
+              Work Time: {workTimeString}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              id="workTimeInput"
+              label="Work Time (in minutes)"
+              onChange={(e) => {
+                if (formatTimePattern.test(e.target.value)) {
+                  handleChangeWorkTimeString(e.target.value);
+                }
+              }}
+            />
+          </Grid>
+          <Grid item xs={6} className={classes.gridText}>
+            <Typography variant="h6">
+              Short Break Time: {shortBreakTimeString}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              id="shortBreakTimeInput"
+              label="Short Break Time"
+              onChange={(e) => {
+                if (formatTimePattern.test(e.target.value)) {
+                  handleChangeShortBreakTimeString(e.target.value);
+                }
+              }}
+            />
+          </Grid>
+          <Grid item xs={6} className={classes.gridText}>
+            <Typography variant="h6">
+              Long Break Time: {longBreakTimeString}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              id="longBreakTimeInput"
+              label="Long Break Time"
+              onChange={(e) => {
+                if (formatTimePattern.test(e.target.value)) {
+                  handleChangeLongBreakTimeString(e.target.value);
+                }
+              }}
+            />
+          </Grid>
+        </Grid>
       </CardContent>
-      <CardActions>
-        <Typography variant="h6">Update Timer Settings</Typography>
-        <form className={classes.root}>
-          <TextField
-            id="workTimeInput"
-            label="Work Time (in minutes)"
-            onChange={(e) => {
-              if (formatTimePattern.test(e.target.value)) {
-                handleChangeWorkTimeString(e.target.value);
-              }
-            }}
-          />
-          <TextField
-            id="shortBreakTimeInput"
-            label="Short Break Time"
-            onChange={(e) => {
-              if (formatTimePattern.test(e.target.value)) {
-                handleChangeShortBreakTimeString(e.target.value);
-              }
-            }}
-          />
-          <TextField
-            id="longBreakTimeInput"
-            label="Long Break Time"
-            onChange={(e) => {
-              if (formatTimePattern.test(e.target.value)) {
-                handleChangeLongBreakTimeString(e.target.value);
-              }
-            }}
-          />
-        </form>
-      </CardActions>
     </Card>
   );
 }
