@@ -73,9 +73,6 @@ function App() {
         <AppBar position="relative" style={{ marginBottom: 10 }}>
           <Toolbar>
             <Typography variant="h6">PomoStack</Typography>
-            <Button onClick={toggleTheme}>
-              <BrightnessHigh />
-            </Button>
           </Toolbar>
         </AppBar>
         <Container>
