@@ -3,14 +3,9 @@ import {
   Card,
   Typography,
   CardContent,
-  CardActions,
-  TextField,
-  makeStyles,
-  Theme,
-  createStyles,
-  Grid,
+  Divider,
 } from "@material-ui/core";
-import { TimerSettings } from './components';
+import { TimerSettings, SoundSettings } from './components';
 
 export interface Props {
   name: string;
@@ -20,22 +15,8 @@ export interface Props {
   handleChangeWorkTimeString: (data: string) => void;
   handleChangeShortBreakTimeString: (data: string) => void;
   handleChangeLongBreakTimeString: (data: string) => void;
+  handleChangeSound: (data: string) => void;
 }
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      "& > *": {
-        margin: theme.spacing(1),
-        width: "25ch",
-      },
-    },
-    gridText: {
-      display: "flex",
-      alignItems: "flex-end",
-    }
-  })
-);
 
 function UserDetails({
   name,
@@ -45,16 +26,17 @@ function UserDetails({
   handleChangeShortBreakTimeString,
   longBreakTimeString,
   handleChangeLongBreakTimeString,
+  handleChangeSound,
 }: Props) {
-  const formatTimePattern = RegExp("^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$");
-  const classes = useStyles();
   return (
     <Card style={{ height: "auto" }}>
       <CardContent>
         <Typography variant="h6">User Details and Settings</Typography>
         <Typography variant="h4">{name}</Typography>
-        <Typography variant="h5" style={{ paddingTop: '10px' }}>Timer Settings</Typography>
+        <Divider style={{marginTop: '1rem'}}/>
         <TimerSettings workTimeString={workTimeString} shortBreakTimeString={shortBreakTimeString} longBreakTimeString={longBreakTimeString} handleChangeWorkTimeString={handleChangeWorkTimeString} handleChangeShortBreakTimeString={handleChangeShortBreakTimeString} handleChangeLongBreakTimeString={handleChangeLongBreakTimeString} />
+        <Divider style={{marginTop: '1rem'}}/>
+        <SoundSettings handleChangeSound={handleChangeSound} />
       </CardContent>
     </Card>
   );

@@ -18,6 +18,7 @@ export interface Props {
   workTimeString: string;
   shortBreakTimeString: string;
   longBreakTimeString: string;
+  playNotificationSound: () => void;
 }
 
 function Timer({
@@ -27,6 +28,7 @@ function Timer({
   workTimeString,
   shortBreakTimeString,
   longBreakTimeString,
+  playNotificationSound,
 }: Props) {
   const [seconds, setSeconds] = useState(0);
   const [isActive, setActive] = useState(false);
@@ -83,6 +85,7 @@ function Timer({
       setEndTime(longBreakTime);
     }
     if (seconds === endTime && endTime !== 0) {
+      playNotificationSound();
       if (timeState === TimeSetting.work) {
         setNumWorkTimes((currentTime) => currentTime + 1);
         if (numWorkTimes === 4) {
@@ -116,7 +119,8 @@ function Timer({
     shortBreakTime,
     setEndTime,
     workTime,
-    longBreakTime
+    longBreakTime,
+    playNotificationSound,
   ]);
 
   return (

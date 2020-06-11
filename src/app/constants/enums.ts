@@ -8,3 +8,9 @@ export enum TimeSetting {
     shortBreak = 'Short Break',
     longBreak = 'Long Break'
 }
+
+export enum Sounds {
+    fillingYourInbox = 'Filling Your Inbox',
+    justLikeMagic = 'Just Like Magic',
+    maybeOneDay = 'Maybe One Day',
+}
