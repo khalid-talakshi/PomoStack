@@ -8,14 +8,18 @@ import {
   makeStyles,
   Theme,
   createStyles,
+  Grid,
 } from "@material-ui/core";
+import { TimerSettings } from './components';
 
 export interface Props {
   name: string;
-  breakTime: number;
   workTimeString: string;
-  handleChangeWorkTime: (data: number) => void;
+  shortBreakTimeString: string;
+  longBreakTimeString: string;
   handleChangeWorkTimeString: (data: string) => void;
+  handleChangeShortBreakTimeString: (data: string) => void;
+  handleChangeLongBreakTimeString: (data: string) => void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -26,42 +30,32 @@ const useStyles = makeStyles((theme: Theme) =>
         width: "25ch",
       },
     },
+    gridText: {
+      display: "flex",
+      alignItems: "flex-end",
+    }
   })
 );
 
 function UserDetails({
   name,
-  breakTime,
   workTimeString,
-  handleChangeWorkTime,
   handleChangeWorkTimeString,
+  shortBreakTimeString,
+  handleChangeShortBreakTimeString,
+  longBreakTimeString,
+  handleChangeLongBreakTimeString,
 }: Props) {
-  const formatTimePattern = RegExp('^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$');
+  const formatTimePattern = RegExp("^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$");
   const classes = useStyles();
   return (
     <Card style={{ height: "auto" }}>
       <CardContent>
         <Typography variant="h6">User Details and Settings</Typography>
         <Typography variant="h4">{name}</Typography>
-        <Typography variant="h6">
-          Work Time: {workTimeString}, Break Time: {breakTime}
-        </Typography>
+        <Typography variant="h5" style={{ paddingTop: '10px' }}>Timer Settings</Typography>
+        <TimerSettings workTimeString={workTimeString} shortBreakTimeString={shortBreakTimeString} longBreakTimeString={longBreakTimeString} handleChangeWorkTimeString={handleChangeWorkTimeString} handleChangeShortBreakTimeString={handleChangeShortBreakTimeString} handleChangeLongBreakTimeString={handleChangeLongBreakTimeString} />
       </CardContent>
-      <CardActions>
-        <Typography variant="h6">Update Timer Settings</Typography>
-        <form className={classes.root}>
-          <TextField
-            id="workTimeInput"
-            label="Work Time (in minutes)"
-            onChange={(e) => {
-              if(formatTimePattern.test(e.target.value)){
-                handleChangeWorkTimeString(e.target.value)
-              };
-            }}
-          />
-          <TextField id="breakTimeInput" label="Break Time" />
-        </form>
-      </CardActions>
     </Card>
   );
 }
