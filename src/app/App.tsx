@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 
 import {
@@ -63,7 +63,7 @@ function App() {
     }
   }
 
-  const playNotificationSound = useCallback(() => {
+  const playNotificationSound = () => {
     if (sound === Sounds.fillingYourInbox) {
       playFillingYourInbox();
     } else if (sound === Sounds.justLikeMagic) {
@@ -71,7 +71,7 @@ function App() {
     } else if (sound === Sounds.maybeOneDay) {
       playMaybeOneDay();
     }
-  }, [])
+  }
 
   useEffect(() => {
     setWorkTime(
@@ -96,7 +96,7 @@ function App() {
 
   useEffect(() => {
     playNotificationSound();
-  }, [sound, setSound, playNotificationSound]);
+  }, [sound, setSound]);
 
   return (
     <>
