@@ -1,9 +1,6 @@
 import React from "react";
 import {
-    Card,
     Typography,
-    CardContent,
-    CardActions,
     TextField,
     makeStyles,
     Theme,
@@ -40,6 +37,8 @@ function TimerSettings({
     const formatTimePattern = RegExp("^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$");
     const classes = useStyles();
     return (
+        <>
+        <Typography variant="h5" style={{ paddingTop: '10px' }}>Timer Settings</Typography>
         <Grid container>
             <Grid item xs={6} className={classes.gridText}>
                 <Typography variant="h6">
@@ -49,7 +48,7 @@ function TimerSettings({
             <Grid item xs={6}>
                 <TextField
                     id="workTimeInput"
-                    label="Work Time (in minutes)"
+                    label="Work Time"
                     onChange={(e) => {
                         if (formatTimePattern.test(e.target.value)) {
                             handleChangeWorkTimeString(e.target.value);
@@ -90,6 +89,7 @@ function TimerSettings({
                 />
             </Grid>
         </Grid>
+        </>
     )
 }
 
