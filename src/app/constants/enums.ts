@@ -13,4 +13,8 @@ export enum Sounds {
     fillingYourInbox = 'Filling Your Inbox',
     justLikeMagic = 'Just Like Magic',
     maybeOneDay = 'Maybe One Day',
+    openUp = 'Open Up',
+    pristine = 'Pristine',
+    swiftly = 'Swiftly',
+    thatWasQuick ='That Was Quick',
 }

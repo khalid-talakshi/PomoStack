@@ -36,6 +36,10 @@ function SoundSettings({handleChangeSound}: Props) {
                         <MenuItem value={'fillingYourInbox'}>Filling Your Inbox</MenuItem>
                         <MenuItem value={'justLikeMagic'}>Just Like Magic</MenuItem>
                         <MenuItem value={'maybeOneDay'}>Maybe One Day</MenuItem>
+                        <MenuItem value={'openUp'}>Open Up</MenuItem>
+                        <MenuItem value={'pristine'}>Pristine</MenuItem>
+                        <MenuItem value={'swiftly'}>Swiftly</MenuItem>
+                        <MenuItem value={'thatWasQuick'}>That Was Quick</MenuItem>
                     </Select>
                 </Grid>
             </Grid>
